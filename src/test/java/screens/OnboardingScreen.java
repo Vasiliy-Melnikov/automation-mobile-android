@@ -2,6 +2,7 @@ package screens;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -20,18 +21,22 @@ public class OnboardingScreen {
         this.driver = driver;
     }
 
+    @Step("Read primary text")
     public String primaryRaw() {
         return getText(primaryTextView);
     }
 
+    @Step("Read secondary text")
     public String secondaryRaw() {
         return getText(secondaryTextView);
     }
 
+    @Step("Get Started button is visible")
     public boolean isGetStartedVisible() {
         return isDisplayed(getStartedButton);
     }
 
+    @Step("Tap Next or Done")
     public void tapNextOrDone() {
         if (isDisplayed(nextButton)) {
             driver.findElement(nextButton).click();
@@ -44,6 +49,7 @@ public class OnboardingScreen {
         throw new AssertionError("Neither NEXT nor GET STARTED is visible");
     }
 
+    @Step("Tap Get Started")
     public void tapGetStarted() {
         driver.findElement(getStartedButton).click();
     }
@@ -67,4 +73,5 @@ public class OnboardingScreen {
         }
     }
 }
+
 

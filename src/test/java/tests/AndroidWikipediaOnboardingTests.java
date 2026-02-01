@@ -11,7 +11,8 @@ public class AndroidWikipediaOnboardingTests extends TestBase {
 
     @Test
     void wikipediaOnboarding4ScreensTest() {
-        new OnboardingFlow(driver).complete(List.of(
+        OnboardingFlow flow = new OnboardingFlow(driver);
+        flow.complete(List.of(
                 new OnboardingFlow.ScreenSpec(new String[]{"free"}, new String[]{"encyclopedia"}),
                 new OnboardingFlow.ScreenSpec(new String[]{"new ways"}, new String[]{""}),
                 new OnboardingFlow.ScreenSpec(new String[]{"reading"}, new String[]{"lists"}),

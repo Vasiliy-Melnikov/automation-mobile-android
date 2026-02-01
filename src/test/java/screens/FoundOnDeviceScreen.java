@@ -2,6 +2,7 @@ package screens;
 
 import io.appium.java_client.AppiumBy;
 import io.appium.java_client.AppiumDriver;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -18,11 +19,13 @@ public class FoundOnDeviceScreen {
         this.driver = driver;
     }
 
+    @Step("Found-on-device screen is shown")
     public boolean isShown() {
         String secondary = normalize(tryText(secondaryTextView));
         return secondary.contains("weve found") && secondary.contains("device");
     }
 
+    @Step("Tap Next on found-on-device screen")
     public void tapNext() {
         driver.findElement(nextButton).click();
     }
@@ -51,3 +54,4 @@ public class FoundOnDeviceScreen {
         return t;
     }
 }
+

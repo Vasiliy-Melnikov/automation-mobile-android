@@ -57,15 +57,12 @@ public class OnboardingFlow {
 
             int matchedIndex = findMatchingScreen(expectedScreens, primary, secondary);
 
-            assertTrue(matchedIndex != -1,
-                    "Unknown onboarding screen.\n" +
-                            "Primary(raw): " + primaryRaw + "\n" +
-                            "Secondary(raw): " + secondaryRaw + "\n" +
-                            "Primary(norm): " + primary + "\n" +
-                            "Secondary(norm): " + secondary);
+            stepVerifyScreenMatched(matchedIndex, primaryRaw, secondaryRaw, primary, secondary);
 
             seen.add(matchedIndex);
+
             onboarding.tapNextOrDone();
+
             if (seen.size() >= expectedScreens.size() && onboarding.isGetStartedVisible()) {
                 onboarding.tapGetStarted();
                 return;
@@ -73,6 +70,20 @@ public class OnboardingFlow {
         }
 
         throw new AssertionError("Onboarding was not completed within safety steps. Possibly stuck.");
+    }
+
+    @Step("Verify current screen is known (primary='{primaryRaw}', secondary='{secondaryRaw}')")
+    private void stepVerifyScreenMatched(int matchedIndex,
+                                         String primaryRaw,
+                                         String secondaryRaw,
+                                         String primaryNorm,
+                                         String secondaryNorm) {
+        assertTrue(matchedIndex != -1,
+                "Unknown onboarding screen.\n" +
+                        "Primary(raw): " + primaryRaw + "\n" +
+                        "Secondary(raw): " + secondaryRaw + "\n" +
+                        "Primary(norm): " + primaryNorm + "\n" +
+                        "Secondary(norm): " + secondaryNorm);
     }
 
     private int findMatchingScreen(List<ScreenSpec> specs, String primaryNorm, String secondaryNorm) {
@@ -106,6 +117,7 @@ public class OnboardingFlow {
         return true;
     }
 }
+
 
 
 

@@ -15,5 +15,5 @@ public interface RealDeviceConfig extends Config {
     @Key("udid") String udid();
     @Key("app") @DefaultValue("") String app();
     @Key("appPackage") @DefaultValue("org.wikipedia.alpha") String appPackage();
-    @Key("appActivity") @DefaultValue("org.wikipedia.main.MainActivity") String appActivity();
+    @Key("appActivity") @DefaultValue("org.wikipedia.DefaultIcon") String appActivity();
 }

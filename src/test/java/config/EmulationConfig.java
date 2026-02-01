@@ -29,7 +29,7 @@ public interface EmulationConfig extends Config {
     String appPackage();
 
     @Key("appActivity")
-    @DefaultValue("org.wikipedia.main.MainActivity")
+    @DefaultValue("org.wikipedia.DefaultIcon")
     String appActivity();
 
     @Key("deviceName")

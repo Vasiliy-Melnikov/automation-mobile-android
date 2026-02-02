@@ -21,7 +21,7 @@ public interface EmulationConfig extends Config {
     String automationName();
 
     @Key("app")
-    @DefaultValue("")
+    @DefaultValue("apps/wikipedia.apk")
     String app();
 
     @Key("appPackage")

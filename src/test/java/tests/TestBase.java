@@ -1,10 +1,14 @@
 package tests;
 
 import com.codeborne.selenide.Configuration;
+import config.EmulationConfig;
+import config.RealDeviceConfig;
 import drivers.MobileDriverFactory;
 import helpers.AllureAttachments;
 import helpers.BrowserstackApi;
+import helpers.ApkInstaller;
 import io.appium.java_client.AppiumDriver;
+import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,24 +31,25 @@ public class TestBase {
     void setUpDriverAndState() {
         String host = System.getProperty("deviceHost", "browserstack").toLowerCase();
         String udid = System.getProperty("udid", "emulator-5554");
+
         if ("emulation".equals(host)) {
-            adbForceStop(udid, APP_PACKAGE);
-            adbClear(udid, APP_PACKAGE);
+            EmulationConfig cfg = ConfigFactory.create(EmulationConfig.class, System.getProperties());
+
+            adbForceStop(udid, cfg.appPackage());
+            ApkInstaller.reinstall(udid, cfg.appPackage(), cfg.app());
+
         } else if ("real".equals(host)) {
-            adbForceStop(udid, APP_PACKAGE);
+            RealDeviceConfig cfg = ConfigFactory.create(RealDeviceConfig.class, System.getProperties());
+
+            adbForceStop(udid, cfg.appPackage());
+            ApkInstaller.reinstall(udid, cfg.appPackage(), cfg.app());
         }
 
-        System.out.println(">>> before createDriver");
         driver = MobileDriverFactory.createDriver();
-        System.out.println(">>> after createDriver");
     }
 
     private void adbForceStop(String udid, String packageName) {
         adbRun(udid, "shell", "am", "force-stop", packageName);
-    }
-
-    private void adbClear(String udid, String packageName) {
-        adbRun(udid, "shell", "pm", "clear", packageName);
     }
 
     private void adbRun(String udid, String... args) {

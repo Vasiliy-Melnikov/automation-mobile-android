@@ -8,18 +8,40 @@ import org.aeonbits.owner.Config;
 })
 public interface BrowserstackConfig extends Config {
 
-    @Key("bs.user") @DefaultValue("") String user();
-    @Key("bs.key")  @DefaultValue("") String key();
+    @Key("bs.user")
+    @DefaultValue("")
+    String user();
 
-    @Key("bs.url") String url();
-    @Key("bs.app") String app();
+    @Key("bs.key")
+    @DefaultValue("")
+    String key();
 
-    @Key("bs.project") String project();
-    @Key("bs.build") String build();
-    @Key("bs.name") String name();
+    @Key("bs.url")
+    String url();
 
-    @Key("device") String device();
-    @Key("osVersion") String osVersion();
-    @Key("platformName") @DefaultValue("Android") String platformName();
-    @Key("automationName") @DefaultValue("UiAutomator2") String automationName();
+    @Key("bs.app")
+    String app();
+
+    @Key("bs.project")
+    String project();
+
+    @Key("bs.build")
+    String build();
+
+    @Key("bs.name")
+    String name();
+
+    @Key("device")
+    String device();
+
+    @Key("osVersion")
+    String osVersion();
+
+    @Key("platformName")
+    @DefaultValue("Android")
+    String platformName();
+
+    @Key("automationName")
+    @DefaultValue("UiAutomator2")
+    String automationName();
 }

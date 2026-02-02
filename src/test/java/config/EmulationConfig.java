@@ -39,6 +39,10 @@ public interface EmulationConfig extends Config {
     @Key("platformVersion")
     @DefaultValue("14")
     String platformVersion();
+
+    @Key("reinstallApp")
+    @DefaultValue("true")
+    boolean reinstallApp();
 }
 
 

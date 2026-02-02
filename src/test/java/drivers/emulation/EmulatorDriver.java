@@ -1,6 +1,7 @@
 package drivers.emulation;
 
 import config.EmulationConfig;
+import helpers.ApkInstaller;
 import io.appium.java_client.android.AndroidDriver;
 import org.aeonbits.owner.ConfigFactory;
 import org.openqa.selenium.MutableCapabilities;
@@ -13,16 +14,23 @@ public class EmulatorDriver {
         try {
             EmulationConfig cfg = ConfigFactory.create(EmulationConfig.class, System.getProperties());
 
+            String udid = cfg.deviceName();
+
+            if (cfg.reinstallApp()) {
+                ApkInstaller.reinstall(udid, cfg.appPackage(), cfg.app());
+            }
+
             MutableCapabilities caps = new MutableCapabilities();
             caps.setCapability("platformName", cfg.platformName());
             caps.setCapability("appium:automationName", cfg.automationName());
             caps.setCapability("appium:deviceName", cfg.deviceName());
             caps.setCapability("appium:platformVersion", cfg.platformVersion());
+
             caps.setCapability("appium:appPackage", cfg.appPackage());
             caps.setCapability("appium:appActivity", cfg.appActivity());
             caps.setCapability("appium:appWaitActivity", "org.wikipedia.*");
 
-            caps.setCapability("appium:noReset", false);
+            caps.setCapability("appium:noReset", true);
             caps.setCapability("appium:fullReset", false);
             caps.setCapability("appium:autoGrantPermissions", true);
 
@@ -33,5 +41,6 @@ public class EmulatorDriver {
         }
     }
 }
+
 
 

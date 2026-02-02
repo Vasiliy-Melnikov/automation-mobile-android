@@ -5,9 +5,10 @@ import config.EmulationConfig;
 import config.RealDeviceConfig;
 import drivers.MobileDriverFactory;
 import helpers.AllureAttachments;
-import helpers.BrowserstackApi;
 import helpers.ApkInstaller;
+import helpers.BrowserstackApi;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.InteractsWithApps;
 import org.aeonbits.owner.ConfigFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,13 +35,11 @@ public class TestBase {
 
         if ("emulation".equals(host)) {
             EmulationConfig cfg = ConfigFactory.create(EmulationConfig.class, System.getProperties());
-
             adbForceStop(udid, cfg.appPackage());
             ApkInstaller.reinstall(udid, cfg.appPackage(), cfg.app());
 
         } else if ("real".equals(host)) {
             RealDeviceConfig cfg = ConfigFactory.create(RealDeviceConfig.class, System.getProperties());
-
             adbForceStop(udid, cfg.appPackage());
             ApkInstaller.reinstall(udid, cfg.appPackage(), cfg.app());
         }
@@ -85,19 +84,25 @@ public class TestBase {
         if (driver == null) return;
 
         String host = System.getProperty("deviceHost", "browserstack").toLowerCase();
-        String sessionId = driver.getSessionId() != null ? driver.getSessionId().toString() : null;
+        String udid = System.getProperty("udid", "emulator-5554");
 
-        AllureAttachments.screenshot(driver);
-        AllureAttachments.pageSource(driver);
+        try {
+            if (driver instanceof InteractsWithApps) {
+                ((InteractsWithApps) driver).terminateApp(APP_PACKAGE);
+            }
+        } catch (Exception ignored) {}
 
-        driver.quit();
+        try {
+            driver.quit();
+        } catch (Exception ignored) {}
 
-        if ("browserstack".equals(host) && sessionId != null) {
-            new BrowserstackApi().attachVideo(sessionId);
+        if ("real".equals(host) || "emulation".equals(host)) {
+            try {
+                adbForceStop(udid, APP_PACKAGE);
+            } catch (Exception ignored) {}
         }
     }
 }
-
 
 
 

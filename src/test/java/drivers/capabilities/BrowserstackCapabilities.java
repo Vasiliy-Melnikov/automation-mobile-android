@@ -25,8 +25,8 @@ public class BrowserstackCapabilities {
         bstackOptions.put("projectName", cfg.project());
         bstackOptions.put("buildName", cfg.build());
         bstackOptions.put("sessionName", cfg.name());
-        bstackOptions.put("debug", true);          // логи
-        bstackOptions.put("networkLogs", true);    // сетевые логи
+        bstackOptions.put("debug", true);
+        bstackOptions.put("networkLogs", true);
 
         caps.setCapability("bstack:options", bstackOptions);
         return caps;

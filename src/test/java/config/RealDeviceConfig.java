@@ -34,5 +34,10 @@ public interface RealDeviceConfig extends Config {
     @Key("appActivity")
     @DefaultValue("org.wikipedia.DefaultIcon")
     String appActivity();
+
+    @Key("reinstallApp")
+    @DefaultValue("true")
+    boolean reinstallApp();
 }
+
 
